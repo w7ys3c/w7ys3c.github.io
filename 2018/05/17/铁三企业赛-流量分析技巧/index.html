@@ -15,7 +15,7 @@
     <meta name="description" content="华中科技大学网络空间安全学院 梧桐雨战队">
     <meta name="Cache-Control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>W7YS3C - 梧桐雨</title>
+    <title>铁三企业赛-流量分析技巧 · W7YS3C - 梧桐雨</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -70,6 +70,8 @@
 
     <link rel="preload" href= /css/style.css?v=20180501 as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <link rel="stylesheet" href= /css/mobile.css?v=20180501 media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
         
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
@@ -191,12 +193,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >W7YS3C TEAM</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">铁三企业赛-流量分析技巧</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>W7YS3C TEAM</a>
 </header>
@@ -210,24 +223,67 @@
 
 
 
+height:50vh;
+
 >
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            铁三企业赛-流量分析技巧
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "流量包分析">流量包分析</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/05/17</span>
+                
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe602;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                    <span class="shareText">Share</span>
+                    <ul class="shareList">
+                        <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                            <div class="share-qrcode"></div>
+                        </li>
+                        <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                        <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                        <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                        <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                    </ul>
+                </span>
+            </div>
         
     </div>
 </div>
@@ -331,40 +387,54 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>近日看到了一篇信息安全铁人三项赛总决赛企业赛流量分析的writeup，个人来总结一下相关的要点，以备后续的同学使用。<br>附上参考的链接：<a href="https://www.jianshu.com/p/175708808c95" target="_blank" rel="noopener">https://www.jianshu.com/p/175708808c95</a></p>
+<h1 id="分析过程"><a href="#分析过程" class="headerlink" title="分析过程"></a>分析过程</h1><h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h2><p>首先要找到攻击者的IP地址，这个地方只能通过WireShark来进行，一般情况下访问较为频繁的，嵌入了访问请求较为复杂的post的请求有极大的可能是攻击者。</p>
+<p>原文作者在这里找到了攻击者的IP：<code>172.16.10.121</code>，而后使用了<code>tcpdump</code>的功能分析出流量包来。他所使用的指令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -A -s 0 &apos;host 172.16.10.121 and (((ip[2:2] - ((ip[0]&amp;0xf)&lt;&lt;2)) - ((tcp[12]&amp;0xf0)&gt;&gt;2)) != 0)&apos; -r 1_00005_20170908171421.pcap &gt; 5</span><br></pre></td></tr></table></figure>
+<p>该指令的作用是将流量包（由<code>-r</code>参数指定）<code>1_00005_20170908171421.pcap</code>的内容以字符的形式进行打印<code>-A</code>参数，以<code>-s 0</code>来防止包截断，并传入一个<code>bpf</code>范式的过滤规则，改规则作用为<code>筛选出收发IP为172.16.10.121的包，并且含有数据,而不是SYN,FIN以及ACK-only等不含数据的数据包.</code></p>
+<p>详细解释如下：</p>
+<p>可理解为, <code>ip[2:2]</code>表示整个ip数据包的长度, <code>(ip[0]&amp;0xf)&lt;&lt;2)</code>表示ip数据包包头的长度 <code>(ip[0]&amp;0xf)</code>代表包中的IHL域(即首部长度), 而此域的单位为32bit（即为32的整数倍数）, 要换算成字节数需要乘以4,　即左移2.　<code>(tcp[12]&amp;0xf0)&gt;&gt;4</code>表示tcp头的长度, 此域的单位也是32bit,　换算成比特数为<code>((tcp[12]&amp;0xf0) &gt;&gt; 4)　&lt;&lt;　２</code>,　<br>即 <code>((tcp[12]&amp;0xf0)&gt;&gt;2)</code>.　<code>((ip[2:2] - ((ip[0]&amp;0xf)&lt;&lt;2)) - ((tcp[12]&amp;0xf0)&gt;&gt;2)) != 0</code>　表示: 整个ip数据包的长度减去ip头的长度,再减去<br>tcp头的长度不为0, 这就意味着, ip数据包中确实是有数据.<br><img src="https://p6k2kdbwm.bkt.clouddn.com/20180517184018_iUinNX_Screenshot.jpeg" alt=""><br>IP报文格式<br><img src="http://p6k2kdbwm.bkt.clouddn.com/20180517183904_47xSQp_Screenshot.jpeg" alt=""><br>TCP报文格式</p>
+<h3 id="处理文件夹中全部的pcap文件的脚本"><a href="#处理文件夹中全部的pcap文件的脚本" class="headerlink" title="处理文件夹中全部的pcap文件的脚本"></a>处理文件夹中全部的pcap文件的脚本</h3><p>改脚本用于对文件夹内的全部以pcap结尾的文件进行遍历处理，过滤出该IP的全部请求，并将其请求以文字方式输出到文件中。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"></span><br><span class="line">target_file='http.txt'</span><br><span class="line">target_folder='http'</span><br><span class="line"></span><br><span class="line">mkdir $&#123;target_folder&#125;</span><br><span class="line">touch $&#123;target_folder&#125;/$&#123;target_file&#125;</span><br><span class="line"></span><br><span class="line">for file in `ls *.pcap`;</span><br><span class="line">do</span><br><span class="line">echo "Dumping http package in $&#123;file&#125;..."</span><br><span class="line">tcpdump -A -s 0 'host 172.16.10.121 and (((ip[2:2] - ((ip[0]&amp;0xf)&lt;&lt;2)) - ((tcp[12]&amp;0xf0)&gt;&gt;2)) != 0)' -r $file &gt; $&#123;target_folder&#125;/$&#123;file&#125;.txt</span><br><span class="line">echo "$&#123;file&#125; Done!"</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">for file in `ls $&#123;target_folder&#125;/*.txt`;</span><br><span class="line">do</span><br><span class="line">cat $file &gt;&gt; $&#123;target_folder&#125;/$&#123;target_file&#125;</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
+<h1 id="先写这么多-未完待续"><a href="#先写这么多-未完待续" class="headerlink" title="先写这么多-未完待续"></a>先写这么多-未完待续</h1>
+    </article>
+    <!-- license  -->
     
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/05/01/5月1日「全国大学生信息安全竞赛(CISCN)」解题writeup/" >
-                
-                    <span>5月1日「全国大学生信息安全竞赛(CISCN)」解题writeup</span>
-            </a>
-            <div class="abstract-content">
-                前言渣渣队伍，拿了个华中第五。pwn、re和apk一道没做出来……
-正文Webeasyweb题目链接：http://114.116.26.217/登进去是一个登录界面
-垃圾题目，一开始环境都出错，注册不了，对着题目撸了半个小时无果。后来发了个公告修复了。
-说出来你可能不信，这道题我是这样做出来的——注册一个普通用户，登录后提示没有管理员权限，看来肯定是要用admin的身份登录了啊。于是我用admin+admin登录，没想到成功了……（过了一会儿使用admin+admin就登不了，提示密码错误），然后匆匆的截了个图：
-看到没，直接出flag，然而用这个提交死活不对。我想难道是思路不对，看c...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/01</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ciscn writeup ctf">ciscn writeup ctf</a>
-    
-</div>
-                
-            </div>
-        </article>
+        <div class="license-wrapper">
+            <p>原文作者: <a href="http://w7ys3c.github.io">WTYer</a>
+            <p>原文链接: <a href="http://w7ys3c.github.io/2018/05/17/铁三企业赛-流量分析技巧/">http://w7ys3c.github.io/2018/05/17/铁三企业赛-流量分析技巧/</a>
+            <p>发表日期: <a href="http://w7ys3c.github.io/2018/05/17/铁三企业赛-流量分析技巧/">五月 17日 2018, 5:28:01</a>
+            <p>版权声明: 本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/05/14/5月12日「网络空间安全技术大赛-cstc-」解题writeup/" title= 5月12日「网络空间安全技术大赛(cstc)」解题writeup >
+                    <div class="prevTitle">5月12日「网络空间安全技术大赛(cstc)」解题writeup</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -439,6 +509,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分析过程"><span class="toc-number">2.</span> <span class="toc-text">分析过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一步"><span class="toc-number">2.1.</span> <span class="toc-text">第一步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#处理文件夹中全部的pcap文件的脚本"><span class="toc-number">2.1.1.</span> <span class="toc-text">处理文件夹中全部的pcap文件的脚本</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#先写这么多-未完待续"><span class="toc-number">3.</span> <span class="toc-text">先写这么多-未完待续</span></a></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -574,6 +662,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
     
     </body>
 </html>

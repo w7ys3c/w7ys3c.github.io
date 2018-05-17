@@ -336,6 +336,35 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/05/17/铁三企业赛-流量分析技巧/" >
+                
+                    <span>铁三企业赛-流量分析技巧</span>
+            </a>
+            <div class="abstract-content">
+                前言近日看到了一篇信息安全铁人三项赛总决赛企业赛流量分析的writeup，个人来总结一下相关的要点，以备后续的同学使用。附上参考的链接：https://www.jianshu.com/p/175708808c95
+分析过程第一步首先要找到攻击者的IP地址，这个地方只能通过WireShark来进行，一般情况下访问较为频繁的，嵌入了访问请求较为复杂的post的请求有极大的可能是攻击者。
+原文作者在这里找到了攻击者的IP：172.16.10.121，而后使用了tcpdump的功能分析出流量包来。他所使用的指令如下：
+1tcpdump -A -s 0 &apos;host 172.16.10.1...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/17</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "流量包分析">流量包分析</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/05/14/5月12日「网络空间安全技术大赛-cstc-」解题writeup/" >
                 
                     <span>5月12日「网络空间安全技术大赛(cstc)」解题writeup</span>
@@ -497,7 +526,14 @@
     
     
     
-    <div class="total-archive"> Total : 2 </div>
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 3 </div>
     
     <div class="post-archive">
     
@@ -506,6 +542,11 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/17</span><a class="archive-post-title" href= "/2018/05/17/铁三企业赛-流量分析技巧/" >铁三企业赛-流量分析技巧</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -523,6 +564,8 @@
     <div class="sidebar-tags-name">
     
         <span class="sidebar-tag-name" data-tags="解题 writeup cstc"><span class="iconfont-archer">&#xe606;</span>解题 writeup cstc</span>
+    
+        <span class="sidebar-tag-name" data-tags="流量包分析"><span class="iconfont-archer">&#xe606;</span>流量包分析</span>
     
         <span class="sidebar-tag-name" data-tags="ciscn writeup ctf"><span class="iconfont-archer">&#xe606;</span>ciscn writeup ctf</span>
     

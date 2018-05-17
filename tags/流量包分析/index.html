@@ -336,27 +336,26 @@
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/05/01/5月1日「全国大学生信息安全竞赛(CISCN)」解题writeup/" >
+            <a class="abstract-title" href = "/2018/05/17/铁三企业赛-流量分析技巧/" >
                 
-                    <span>5月1日「全国大学生信息安全竞赛(CISCN)」解题writeup</span>
+                    <span>铁三企业赛-流量分析技巧</span>
             </a>
             <div class="abstract-content">
-                前言渣渣队伍，拿了个华中第五。pwn、re和apk一道没做出来……
-正文Webeasyweb题目链接：http://114.116.26.217/登进去是一个登录界面
-垃圾题目，一开始环境都出错，注册不了，对着题目撸了半个小时无果。后来发了个公告修复了。
-说出来你可能不信，这道题我是这样做出来的——注册一个普通用户，登录后提示没有管理员权限，看来肯定是要用admin的身份登录了啊。于是我用admin+admin登录，没想到成功了……（过了一会儿使用admin+admin就登不了，提示密码错误），然后匆匆的截了个图：
-看到没，直接出flag，然而用这个提交死活不对。我想难道是思路不对，看c...
+                前言近日看到了一篇信息安全铁人三项赛总决赛企业赛流量分析的writeup，个人来总结一下相关的要点，以备后续的同学使用。附上参考的链接：https://www.jianshu.com/p/175708808c95
+分析过程第一步首先要找到攻击者的IP地址，这个地方只能通过WireShark来进行，一般情况下访问较为频繁的，嵌入了访问请求较为复杂的post的请求有极大的可能是攻击者。
+原文作者在这里找到了攻击者的IP：172.16.10.121，而后使用了tcpdump的功能分析出流量包来。他所使用的指令如下：
+1tcpdump -A -s 0 &apos;host 172.16.10.1...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
                 <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/01</span>
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/17</span>
                 </div>
                 <!-- tags  -->
                 
                 <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ciscn writeup ctf">ciscn writeup ctf</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "流量包分析">流量包分析</a>
     
 </div>
                 
